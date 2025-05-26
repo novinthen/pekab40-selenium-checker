@@ -1,4 +1,3 @@
-
 services:
   - type: web
     name: pekab40-selenium-checker
