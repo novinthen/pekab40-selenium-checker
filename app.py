@@ -1,3 +1,21 @@
+from flask import Flask, request, send_file, render_template
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+import tempfile
+import os
+
+app = Flask(__name__)  # ✅ MUST be defined before @app.route
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -14,7 +32,6 @@ def upload_file():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
 
-    # ✅ These must be inside the function!
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
@@ -48,3 +65,7 @@ def upload_file():
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx")
     df.to_excel(tmp.name, index=False)
     return send_file(tmp.name, as_attachment=True, download_name="results_checked.xlsx")
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, host="0.0.0.0", port=port)
