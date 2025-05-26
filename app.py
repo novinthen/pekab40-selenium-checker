@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+from shutil import which  # ✅ added to locate chromium
 import tempfile
 import os
 
@@ -26,8 +27,9 @@ def upload_file():
     if 'IC' not in df.columns:
         return "Missing 'IC' column in Excel file", 400
 
-    # Set up Selenium with Chrome
+    # ✅ Set up Selenium with Chromium on Render
     chrome_options = Options()
+    chrome_options.binary_location = which("chromium-browser") or which("chromium")  # ✅ This line fixes the error
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
