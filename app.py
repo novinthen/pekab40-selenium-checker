@@ -1,4 +1,4 @@
-
+from selenium.webdriver.chrome.service import Service
 from flask import Flask, request, send_file, render_template
 import pandas as pd
 from selenium import webdriver
@@ -31,7 +31,8 @@ def upload_file():
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chrome_options)
+service = Service(ChromeDriverManager().install())
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
     results = []
     raw_html = []
