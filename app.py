@@ -7,11 +7,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-from shutil import which  # ✅ added to locate chromium
 import tempfile
 import os
 
-app = Flask(__name__)  # ✅ MUST be defined before @app.route
+app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def index():
@@ -27,9 +26,9 @@ def upload_file():
     if 'IC' not in df.columns:
         return "Missing 'IC' column in Excel file", 400
 
-    # ✅ Set up Selenium with Chromium on Render
+    # Set up Selenium with Chrome for Render environment
     chrome_options = Options()
-    chrome_options.binary_location = which("chromium-browser") or which("chromium")  # ✅ This line fixes the error
+    chrome_options.binary_location = "/opt/render/project/.render/chrome/opt/google/chrome/google-chrome"
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
@@ -54,7 +53,7 @@ def upload_file():
             status = driver.find_element(By.ID, "status").text
         except Exception as e:
             status = "Error"
-            raw_html.append(driver.page_source[:1000])  # Limit output size
+            raw_html.append(driver.page_source[:1000])
         else:
             raw_html.append(driver.page_source[:1000])
 
