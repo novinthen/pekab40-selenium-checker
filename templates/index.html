@@ -1,11 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head><title>PEKAB40 Checker</title></head>
+<head>
+    <title>PEKA B40 Eligibility Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            text-align: center;
+            margin-top: 30px;
+        }
+        input[type="file"] {
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #005fa3;
+        }
+    </style>
+</head>
 <body>
-    <h2>Upload Excel file with IC numbers</h2>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".xlsx" required>
-        <button type="submit">Submit</button>
+    <h2>PEKA B40 IC Eligibility Checker</h2>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="file" required><br>
+        <button type="submit">Check Eligibility</button>
     </form>
 </body>
 </html>
