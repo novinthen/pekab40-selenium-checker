@@ -9,6 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import tempfile
 import os
+import shutil
+from shutil import which
 
 app = Flask(__name__)
 
@@ -26,14 +28,15 @@ def upload_file():
     if 'IC' not in df.columns:
         return "Missing 'IC' column in Excel file", 400
 
-    # Set up Selenium with Chrome for Render environment
+    # Set up Chrome options
     chrome_options = Options()
-    chrome_options.binary_location = "/opt/render/project/.render/chrome/opt/google/chrome/google-chrome"
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.binary_location = "/opt/render/project/.render/chrome/opt/google/chrome/google-chrome"
 
-    service = Service(ChromeDriverManager().install())
+    # Use the correct version for ChromeDriver
+    service = Service(ChromeDriverManager(driver_version="136.0.0.0").install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     results = []
